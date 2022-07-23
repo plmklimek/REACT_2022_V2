@@ -6,8 +6,11 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static javax.persistence.CascadeType.*;
 
 
 @Builder
@@ -17,13 +20,13 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Filer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String name;
     @JsonIgnore
-    @ManyToMany(mappedBy = "files", cascade = CascadeType.ALL)
-   private List<User> users;
+    @ManyToMany(mappedBy = "files")
+   private List<User> users  = new ArrayList<User>();
 
     public Long getId() {
         return id;

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,17 +20,16 @@ import java.util.Objects;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String name;
-
     @ManyToMany
     @JoinTable(
             name = "users_files",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "file_id"))
-    private List<Filer> files;
+    private List<Filer> files = new ArrayList<Filer>();
 
     @Override
     public boolean equals(Object o) {
